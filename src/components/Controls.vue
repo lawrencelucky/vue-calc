@@ -2,8 +2,8 @@
   <div class="control-container">
     <div class="grid">
       <b-button class="btn" @click="clearFn" variant="info">AC</b-button>
-      <b-button class="btn" @click="negPosFn" variant="info">+/-</b-button>
-      <b-button class="btn" @click="percentageFn" variant="info">%</b-button>
+      <b-button class="btn" @click="negPosFn" variant="info">±</b-button>
+      <b-button class="btn" @click="deleteFn" variant="info">←</b-button>
       <b-button class="btn" @click="divisionFn" variant="info">&div;</b-button>
       <b-button class="btn" @click="insertFn" variant="info">7</b-button>
       <b-button class="btn" @click="insertFn" variant="info">8</b-button>
@@ -17,6 +17,7 @@
       <b-button class="btn" @click="insertFn" variant="info">2</b-button>
       <b-button class="btn" @click="insertFn" variant="info">3</b-button>
       <b-button class="btn" @click="addFn" variant="info">+</b-button>
+      <b-button class="btn" @click="percentageFn" variant="info">%</b-button>
       <b-button class="btn zero-btn" @click="insertFn" variant="info"
         >0</b-button
       >
@@ -39,7 +40,8 @@ export default {
     'decimalFn',
     'negPosFn',
     'percentageFn',
-    'clearFn'
+    'clearFn',
+    'deleteFn'
   ],
   data() {
     return {};
@@ -63,11 +65,6 @@ export default {
       font-size: 3rem;
       background-color: #50b6bb;
       color: #f2eaec;
-    }
-
-    .zero-btn {
-      display: grid;
-      grid-column: span 2;
     }
   }
 }

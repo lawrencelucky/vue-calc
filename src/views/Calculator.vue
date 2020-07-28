@@ -1,6 +1,6 @@
 <template>
   <div class="calculator-container">
-    <app-display :digit="digit"></app-display>
+    <app-display :digit="digit" :displayVal="displayVal"></app-display>
     <app-control
       :digit="digit"
       :insertFn="insert"
@@ -13,6 +13,7 @@
       :negPosFn="negPosOperation"
       :percentageFn="percentageOperation"
       :clearFn="clearField"
+      :deleteFn="deleteOperation"
     ></app-control>
   </div>
 </template>
@@ -25,13 +26,16 @@ export default {
   data() {
     return {
       digit: 0,
-      digitArray: []
+      pendingVal: '',
+      digitArray: [],
+      displayVal: ''
     };
   },
   methods: {
     insert(value) {
       let currentValue = this.digit;
       let newValue = value.target.innerText;
+
       if (currentValue === 0) {
         currentValue = '';
       }
@@ -40,45 +44,46 @@ export default {
     },
     addOperation() {
       this.pendingVal = this.digit;
-      this.digit = 0;
+      this.digit = '';
       this.digitArray.push(this.pendingVal);
       this.digitArray.push('+');
+      this.displayVal = this.digitArray.join(' ');
     },
     subtractOperation() {
       this.pendingVal = this.digit;
-      this.digit = 0;
+      this.digit = '';
       this.digitArray.push(this.pendingVal);
       this.digitArray.push('-');
+      this.displayVal = this.digitArray.join(' ');
     },
     multiplicationOperation() {
       this.pendingVal = this.digit;
-      this.digit = 0;
+      this.digit = '';
       this.digitArray.push(this.pendingVal);
       this.digitArray.push('*');
+      this.displayVal = this.digitArray.join(' ');
     },
     divisionOperation() {
       this.pendingVal = this.digit;
-      this.digit = 0;
+      this.digit = '';
       this.digitArray.push(this.pendingVal);
       this.digitArray.push('/');
+      this.displayVal = this.digitArray.join(' ');
     },
     decimalOperation(value) {
-      let oldValue = '';
-      if (this.digit === 0) {
-        oldValue = this.digit + value.target.innerText;
-      } else {
-        oldValue = this.digit + value.target.innerText;
-      }
       if (this.digit.toString().includes('.')) {
-        return oldValue;
+        return this.digit;
       }
-      this.digit = oldValue;
-      console.log(this.digitArray);
+      let currentValue = this.digit;
+      let newValue = value.target.innerText;
+      currentValue += newValue;
+      this.digit = currentValue;
     },
     performOperation() {
       this.digitArray.push(this.digit);
       const evaluation = eval(this.digitArray.join(' '));
       this.digit = evaluation;
+      this.displayVal = this.digitArray.join(' ');
       this.digitArray = [];
     },
     negPosOperation() {
@@ -98,6 +103,13 @@ export default {
     clearField() {
       this.digit = 0;
       this.digitArray = [];
+      this.displayVal = '';
+      this.pendingVal = '';
+    },
+    deleteOperation() {
+      if (this.digit !== 0) {
+        this.digit = this.digit.substring(0, this.digit.length - 1);
+      }
     }
   },
   components: {
